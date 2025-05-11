@@ -1,10 +1,21 @@
-import { IsDateString, IsNotEmpty, IsString } from '@nestjs/class-validator';
+import {
+  IsDate,
+  IsDefined,
+  IsNotEmpty,
+  IsNotEmptyObject,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { CreateChargeDto } from '@app/common';
+import { Type } from 'class-transformer';
 
 export class CreateReservationDto {
-  @IsDateString()
+  @IsDate()
+  @Type(() => Date)
   startDate: Date;
 
-  @IsDateString()
+  @IsDate()
+  @Type(() => Date)
   endDate: Date;
 
   @IsString()
@@ -14,4 +25,10 @@ export class CreateReservationDto {
   @IsString()
   @IsNotEmpty()
   invoiceId: string;
+
+  @IsDefined()
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => CreateChargeDto)
+  charge: CreateChargeDto;
 }
