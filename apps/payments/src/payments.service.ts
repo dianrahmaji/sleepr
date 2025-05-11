@@ -17,14 +17,14 @@ export class PaymentsService {
   async createCharge({ card, amount }: CreateChargeDto) {
     const paymentMethod = await this.stripe.paymentMethods.create({
       type: 'card',
-      card,
+      card: { token: 'tok_mastercard' },
     });
 
     const paymentIntent = await this.stripe.paymentIntents.create({
       payment_method: paymentMethod.id,
       amount: amount * 100, // Stripe expects the amount in cents
+      automatic_payment_methods: { enabled: true, allow_redirects: 'never' },
       confirm: true,
-      payment_method_types: ['card'],
       currency: 'usd',
     });
 
