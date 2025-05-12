@@ -15,6 +15,13 @@
             gke-gcloud-auth-plugin
           ]
         );
+        helm = pkgs.wrapHelm pkgs.kubernetes-helm {
+          plugins = with pkgs.kubernetes-helmPlugins; [
+            helm-diff
+            helm-secrets
+            helm-s3
+          ];
+        };
       in {
         devShell = pkgs.mkShell {
 	        buildInputs = with pkgs; [
@@ -22,6 +29,7 @@
             nodejs_22
             pnpm
             gdk
+            helm
           ];
         };
       }
