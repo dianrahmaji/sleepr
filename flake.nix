@@ -25,6 +25,7 @@
       in {
         devShell = pkgs.mkShell {
 	        buildInputs = with pkgs; [
+            awscli
             nest-cli
             nodejs_22
             pnpm
