@@ -15,8 +15,8 @@ spec:
         app: notifications
     spec:
       containers:
-        # - image: asia-southeast2-docker.pkg.dev/oceanic-hangout-373706/notifications/production
-        - image: 786673620217.dkr.ecr.ap-southeast-1.amazonaws.com/notifications:latest
+        - image: asia-southeast2-docker.pkg.dev/oceanic-hangout-373706/notifications/production
+          # - image: 786673620217.dkr.ecr.ap-southeast-1.amazonaws.com/notifications:latest
           name: notifications
           env:
             - name: PORT
