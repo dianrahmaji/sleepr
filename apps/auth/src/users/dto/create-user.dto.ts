@@ -1,5 +1,11 @@
 import { IsEmail } from '@nestjs/class-validator';
-import { IsStrongPassword } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsStrongPassword,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -7,4 +13,10 @@ export class CreateUserDto {
 
   @IsStrongPassword()
   password: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @IsNotEmpty({ each: true })
+  roles?: string[];
 }
