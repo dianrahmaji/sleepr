@@ -26,11 +26,12 @@
         devShell = pkgs.mkShell {
 	        buildInputs = with pkgs; [
             awscli
+            eksctl
+            gdk
+            helm
             nest-cli
             nodejs_22
             pnpm
-            gdk
-            helm
           ];
         };
       }
