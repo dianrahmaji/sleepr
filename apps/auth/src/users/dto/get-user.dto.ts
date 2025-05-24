@@ -1,7 +1,8 @@
-import { IsNotEmpty, IsString } from '@nestjs/class-validator';
+import { IsNotEmpty } from '@nestjs/class-validator';
+import { IsNumber } from 'class-validator';
 
 export class GetUserDto {
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  _id: string;
+  id: number;
 }

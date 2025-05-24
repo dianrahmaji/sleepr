@@ -43,13 +43,9 @@ services:
       - ./apps/notifications/.env
     volumes:
       - .:/usr/src/app
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
+  mysql:
+    image: mysql
+    env_file:
+      - .env
     ports:
-      - '27017:27017'
-    volumes:
-      - mongodb_data:/data/db
-
-volumes:
-  mongodb_data:
+      - '3306:3306'
