@@ -7,10 +7,13 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json tsconfig.json
 COPY nest-cli.json nest-cli.json
+COPY apps/reservations/prisma ./prisma
 
 RUN npm install -g pnpm
 
 RUN pnpm install
+
+RUN pnpm prisma generate
 
 COPY apps/reservations apps/reservations
 COPY libs libs
@@ -34,4 +37,4 @@ RUN pnpm install --prod
 COPY --from=development /usr/src/app/dist ./dist
 COPY proto proto
 
-CMD ["node", "dist/apps/reservations/main"]
+CMD ["pnpm", "start:prod", "dist/apps/reservations/main"]

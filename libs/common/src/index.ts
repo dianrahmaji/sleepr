@@ -4,6 +4,6 @@ export * from './auth';
 export * from './constants';
 export * from './decorators';
 export * from './dto';
-export * from './entity';
+export * from './interface';
 export * from './health';
 export * from './types';

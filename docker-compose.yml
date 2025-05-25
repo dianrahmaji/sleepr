@@ -4,7 +4,9 @@ services:
       context: .
       dockerfile: ./apps/reservations/Dockerfile
       target: development
-    command: pnpm run start:dev reservations
+    command: sh -c "pnpm prisma migrate deploy --schema apps/reservations/prisma/schema.prisma && pnpm prisma generate --schema apps/reservations/prisma/schema.prisma && pnpm start:dev reservations"
+    depends_on:
+      - postgres
     env_file:
       - ./apps/reservations/.env
     ports:
@@ -61,7 +63,9 @@ services:
       - .env
     ports:
       - '3306:3306'
-  rabbitmq:
-    image: rabbitmq
+  postgres:
+    image: postgres
     ports:
-      - '5672:5672'
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: postgres

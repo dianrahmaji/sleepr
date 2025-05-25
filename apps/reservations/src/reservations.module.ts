@@ -4,16 +4,13 @@ import { ReservationsController } from './reservations.controller';
 import {
   AUTH_PACKAGE_NAME,
   AUTH_SERVICE_NAME,
-  DatabaseModule,
   HealthModule,
   LoggerModule,
   PAYMENT_SERVICE_NAME,
   PAYMENTS_PACKAGE_NAME,
 } from '@app/common';
-import { ReservationsRepository } from './reservations.repository';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { Reservation } from './entity/reservation.entity';
 import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
@@ -21,14 +18,10 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { ReservationsResolver } from './reservations.resolver';
+import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
-    DatabaseModule,
-    DatabaseModule.forFeature([
-      //
-      Reservation,
-    ]),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: {
@@ -68,10 +61,6 @@ import { ReservationsResolver } from './reservations.resolver';
     HealthModule,
   ],
   controllers: [ReservationsController],
-  providers: [
-    ReservationsService,
-    ReservationsRepository,
-    ReservationsResolver,
-  ],
+  providers: [ReservationsService, ReservationsResolver, PrismaService],
 })
 export class ReservationsModule {}

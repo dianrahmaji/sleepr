@@ -1,9 +1,8 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
-import { Reservation } from './entity/reservation.entity';
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { CurrentUser, User } from '@app/common';
-import {} from '@nestjs/common';
+import { Reservation } from './entity/reservation.entity';
 
 @Resolver(() => Reservation)
 export class ReservationsResolver {
