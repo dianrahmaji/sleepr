@@ -36,10 +36,6 @@ export class UsersService {
     return user;
   }
 
-  async getUser(getUserDto: GetUserDto) {
-    return this.usersRepository.findOne(getUserDto, { roles: true });
-  }
-
   private async validateCreateUser(createUserDto: CreateUserDto) {
     try {
       await this.usersRepository.findOne({ email: createUserDto.email });
@@ -48,5 +44,13 @@ export class UsersService {
     }
 
     throw new UnprocessableEntityException('Email already exists.');
+  }
+
+  async getUser(getUserDto: GetUserDto) {
+    return this.usersRepository.findOne(getUserDto, { roles: true });
+  }
+
+  async findAll() {
+    return this.usersRepository.find({ roles: true });
   }
 }

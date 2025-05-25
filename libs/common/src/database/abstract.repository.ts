@@ -48,8 +48,11 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
     return this.findOne(where);
   }
 
-  async find(where: FindOptionsWhere<T>): Promise<T[]> {
-    return this.entityRepository.findBy(where);
+  async find(
+    where: FindOptionsWhere<T> = {} as FindOptionsWhere<T>,
+    relations?: FindOptionsRelations<T>,
+  ): Promise<T[]> {
+    return this.entityRepository.find({ where, relations });
   }
 
   async findOneAndDelete(where: FindOptionsWhere<T>) {
