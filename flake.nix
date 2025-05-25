@@ -28,6 +28,7 @@
             awscli
             eksctl
             gdk
+            grpc-tools
             helm
             nest-cli
             nodejs_22

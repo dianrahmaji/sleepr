@@ -6,3 +6,4 @@ export * from './decorators';
 export * from './dto';
 export * from './entity';
 export * from './health';
+export * from './types';
