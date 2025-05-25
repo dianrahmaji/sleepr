@@ -36,7 +36,7 @@ export class ReservationsService implements OnModuleInit {
               startDate: createReservationDto.startDate,
               endDate: createReservationDto.endDate,
               timestamp: new Date(),
-              userId,
+              userId: +userId,
               invoiceId: id,
             },
           });

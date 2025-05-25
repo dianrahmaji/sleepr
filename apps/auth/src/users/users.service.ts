@@ -5,28 +5,29 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersRepository } from './users.repository';
 import { GetUserDto } from './dto/get-user.dto';
-import { Role, User } from '@app/common';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     await this.validateCreateUser(createUserDto);
 
-    const user = new User({
-      ...createUserDto,
-      password: await bcrypt.hash(createUserDto.password, 10),
-      roles: createUserDto.roles?.map((roleDto) => new Role(roleDto)),
+    return this.prismaService.user.create({
+      data: {
+        ...createUserDto,
+        password: await bcrypt.hash(createUserDto.password, 10),
+        roles: createUserDto.roles,
+      },
     });
-
-    return this.usersRepository.create(user);
   }
 
   async verifyUser(email, password) {
-    const user = await this.usersRepository.findOne({ email });
+    const user = await this.prismaService.user.findFirstOrThrow({
+      where: { email },
+    });
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
@@ -36,9 +37,11 @@ export class UsersService {
     return user;
   }
 
-  private async validateCreateUser(createUserDto: CreateUserDto) {
+  private async validateCreateUser({ email }: CreateUserDto) {
     try {
-      await this.usersRepository.findOne({ email: createUserDto.email });
+      await this.prismaService.user.findFirstOrThrow({
+        where: { email },
+      });
     } catch {
       return;
     }
@@ -46,11 +49,13 @@ export class UsersService {
     throw new UnprocessableEntityException('Email already exists.');
   }
 
-  async getUser(getUserDto: GetUserDto) {
-    return this.usersRepository.findOne(getUserDto, { roles: true });
+  async getUser({ id }: GetUserDto) {
+    return this.prismaService.user.findUniqueOrThrow({
+      where: { id: id },
+    });
   }
 
   async findAll() {
-    return this.usersRepository.find({ roles: true });
+    return this.prismaService.user.findMany();
   }
 }

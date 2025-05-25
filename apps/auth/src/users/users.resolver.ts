@@ -1,7 +1,25 @@
-import { User } from '@app/common';
-import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Resolver,
+  Query,
+  ObjectType,
+  Field,
+} from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { AbstractEntity } from '@app/common';
+
+@ObjectType()
+export class User extends AbstractEntity<User> {
+  @Field()
+  email: string;
+
+  password: string;
+
+  @Field(() => [String])
+  roles: string[];
+}
 
 @Resolver(() => User)
 export class UsersResolver {

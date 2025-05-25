@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@app/common';
+import { User } from '.prisma/client';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
